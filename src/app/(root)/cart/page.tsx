@@ -21,7 +21,7 @@ const Cartpage = () => {
             <div className="basis-1/4 bg-gray-200 rounded-md w-full h-full  mt-5 sm:mt-0 p self-start">
               <div className="flex flex-col items-center justify-between gap-5">
                 <h4 className="text-lg font-bold">Order Summary</h4>
-                <div className="flex justify-between items-center w-full">
+                <div className="flex justify-between items-center w-full px-3">
                   <div>
                     <p>Quantity</p>
                   </div>
@@ -29,7 +29,7 @@ const Cartpage = () => {
                     <p>{totalItems}</p>
                   </div>
                 </div>
-                <div className="flex justify-between items-center w-full">
+                <div className="flex justify-between items-center w-full px-3">
                   <div>
                     <p>Total Amount</p>
                   </div>
