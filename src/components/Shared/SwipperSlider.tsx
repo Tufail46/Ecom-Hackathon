@@ -10,7 +10,7 @@ interface Swip {
   data: IProduct[];
 }
 
-const SwipperSlider = async ({ data }: Swip) => {
+const SwipperSlider = ({ data }: Swip) => {
   return (
     <>
       {/* create a new component for this swiper and only pass the data as props. the swiper component should be client component */}

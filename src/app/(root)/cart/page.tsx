@@ -3,7 +3,7 @@ import CartItem from "@/components/shared/CartItem";
 import { useAppSelector } from "@/redux/store";
 import { BiShoppingBag } from "react-icons/bi";
 
-const page = () => {
+const Cartpage = () => {
   const cartItems = useAppSelector((state) => state.cart.items);
   const totalItems = useAppSelector((state) => state.cart.totalQuantity);
   const totalPrice = useAppSelector((state) => state.cart.totalAmount);
@@ -60,4 +60,4 @@ const page = () => {
   }
 };
 
-export default page;
+export default Cartpage;
