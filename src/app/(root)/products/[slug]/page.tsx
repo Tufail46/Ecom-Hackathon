@@ -1,6 +1,7 @@
-import GetProducts from "@/components/Shared/SanityProducts";
-import { IProduct } from "@/components/Shared/Interface";
-import ImageTemp from "@/components/Utilites/ImageTemp";
+import GetProducts from "@/components/shared/SanityProducts";
+import { IProduct } from "@/components/shared/Interface";
+import ImageTemp from "@/components/utilites/ImageTemp";
+import AddtoCart from "@/components/shared/AddtoCart";
 
 const getProducts = async ({ params }: { params: { slug: string } }) => {
   const data: IProduct[] = await GetProducts();
@@ -41,7 +42,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
                   xl
                 </span>
               </div>
-              <h3 className="font-normal mt-10">
+              <h3 className="font-normal mt-10 mb-6 text-2xl">
                 Price: <span className="font-bold">${finalData.price}.00</span>
               </h3>
               {/* <AddtoCartProduct
@@ -49,6 +50,7 @@ const page = async ({ params }: { params: { slug: string } }) => {
             qty={1}
             userId={userId as string}
           /> */}
+              <AddtoCart product={finalData} quantity={1} />
             </div>
           </div>
           <div className="bg-white my-16">

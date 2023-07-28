@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { urlForImage } from "../../../../sanity/lib/image";
 import Link from "next/link";
-import { IProduct } from "@/components/Shared/Interface";
-import GetProducts from "@/components/Shared/SanityProducts";
+import { IProduct } from "@/components/shared/Interface";
+import GetProducts from "@/components/shared/SanityProducts";
 
 const getProducts = async () => {
   const res = await GetProducts();

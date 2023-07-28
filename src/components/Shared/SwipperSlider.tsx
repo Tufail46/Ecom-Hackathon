@@ -5,8 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { urlForImage } from "../../../sanity/lib/image";
 import { IProduct } from "./Interface";
-import GetProducts from "./SanityProducts";
-import { Image as IImage } from "sanity";
 
 interface Swip {
   data: IProduct[];

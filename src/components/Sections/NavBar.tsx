@@ -5,9 +5,12 @@ import { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { FiShoppingCart } from "react-icons/fi";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
+import { useAppSelector } from "@/redux/store";
 
 export default function NavBar() {
   const [nav, setNav] = useState(false);
+  const totalItems = useAppSelector((state) => state.cart.totalQuantity);
+
   const handleNav = () => {
     // This variable is to operate the shifting of Navbar from lg to md and sm
     setNav(!nav);
@@ -39,14 +42,16 @@ export default function NavBar() {
           />
         </div>
         {/* cart div */}
-        <div className="relative hidden lg:block">
-          <div className="absolute bg-red-500 rounded-full text-red px-2 py-1 text-xs -top-2 left-5 text-white">
-            0
+        <Link href={"/cart"}>
+          <div className="relative hidden lg:block">
+            <div className="absolute bg-red-500 rounded-full text-red px-2 py-1 text-xs -top-2 left-5 text-white">
+              {totalItems}
+            </div>
+            <div className="bg-[#F1F1F1] rounded-full p-2">
+              <FiShoppingCart />
+            </div>
           </div>
-          <div className="bg-[#F1F1F1] rounded-full p-2">
-            <FiShoppingCart />
-          </div>
-        </div>
+        </Link>
         {/* Cross div */}
         <div onClick={handleNav} className="lg:hidden cursor-pointer">
           <AiOutlineMenu size={25} />
@@ -78,10 +83,10 @@ export default function NavBar() {
           </div>
           <div className="py-28 flex flex-col items-center text-center">
             <ul>
-              <Link href="/">
+              <Link href="/cart">
                 <div className="relative">
                   <div className="absolute bg-red-500 rounded-full text-red px-2 py-1 text-xs -top-2 left-11 text-white">
-                    0
+                    {totalItems}
                   </div>
                   <div className="bg-[#F1F1F1] p-2 rounded-full text-center mx-6">
                     <FiShoppingCart />

@@ -1,6 +1,6 @@
-import { IProduct } from "../Shared/Interface";
-import GetProducts from "../Shared/SanityProducts";
-import SwipperSlider from "../Shared/SwipperSlider";
+import { IProduct } from "../shared/Interface";
+import GetProducts from "../shared/SanityProducts";
+import SwipperSlider from "../shared/SwipperSlider";
 
 const getProducts = async () => {
   const res = await GetProducts();
