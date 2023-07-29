@@ -2,6 +2,7 @@ import { IProduct } from "@/components/shared/Interface";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { urlForImage } from "../../../sanity/lib/image";
+import { RootState } from "../store";
 
 interface CartState {
   items: Array<IProduct>;
@@ -18,6 +19,20 @@ const initialState: CartState = {
   isLoading: false,
   error: null,
 };
+
+export const fetchData = createAsyncThunk(
+  "cart/fetchData",
+  async (userId: string) => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/cart/${userId}`
+    );
+    if (!res.ok) {
+      console.log("Failed to Fetch Data from API");
+    }
+    const data = await res.json();
+    return data;
+  }
+);
 
 export const cartSlice = createSlice({
   name: "cart",
@@ -79,7 +94,24 @@ export const cartSlice = createSlice({
       state = initialState;
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(fetchData.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(fetchData.fulfilled, (state, action) => {
+      const { cartItems, totalQuantity, totalAmount } = action.payload;
+      state.items = cartItems;
+      state.totalAmount = totalAmount;
+      state.totalQuantity = totalQuantity;
+      state.isLoading = false;
+    });
+    builder.addCase(fetchData.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.error;
+    });
+  },
 });
 
 export default cartSlice.reducer;
 export const cartActions = cartSlice.actions;
+export const selectIsLoading = (state: RootState) => state.cart.isLoading;

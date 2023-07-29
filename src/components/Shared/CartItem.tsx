@@ -5,6 +5,7 @@ import { useAppDispatch } from "@/redux/store";
 import Image from "next/image";
 import { BsTrash } from "react-icons/bs";
 import { cartActions } from "@/redux/features/cartSlice";
+import { Toaster, toast } from "react-hot-toast";
 
 interface Props {
   cartItem: IProduct;
@@ -14,15 +15,64 @@ const CartItem = ({ cartItem }: Props) => {
   const [quantity, setQuantity] = useState(cartItem.quantity);
   const dispatch = useAppDispatch();
 
+  const handleCart = async (newQty: number) => {
+    const newPrice = cartItem.price * newQty;
+    try {
+      if (newQty) {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/cart`,
+          {
+            method: "PUT",
+            body: JSON.stringify({
+              product_id: cartItem._id,
+              quantity: newQty,
+              price: newPrice,
+            }),
+          }
+        );
+        if (!res.ok) {
+          throw new Error("Failed to update data");
+        }
+      } else {
+        throw new Error("Failed to Fetch update");
+      }
+    } catch (error) {
+      console.log((error as { message: string }).message);
+    }
+  };
+
+  const handleDelete = async () => {
+    await fetch(`/api/cart/removeitem/${cartItem._id}`),
+      {
+        method: "DELETE",
+      };
+  };
   const increament = () => {
+    toast.promise(handleCart(quantity + 1), {
+      loading: "Increasing Product Quantity",
+      success: "Product Quantity Increased",
+      error: "Failed to Increased Quantity",
+    });
     setQuantity(quantity + 1);
     dispatch(cartActions.addtoCart({ product: cartItem, quantity: 1 }));
   };
   const decreament = () => {
+    if (cartItem.quantity > 1) {
+      toast.promise(handleCart(quantity - 1), {
+        loading: "Decreasing Quantity",
+        success: "Product quantity decreased",
+        error: "Failed to decreased quantity",
+      });
+    }
     setQuantity(quantity - 1);
     dispatch(cartActions.removeFromCart(cartItem._id));
   };
   const rmProduct = () => {
+    toast.promise(handleDelete(), {
+      loading: "Removing Product",
+      success: "Product Removed",
+      error: "Failed to Remove Product",
+    });
     dispatch(cartActions.removeProduct(cartItem._id));
   };
   return (
@@ -73,6 +123,7 @@ const CartItem = ({ cartItem }: Props) => {
           </div>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 };
